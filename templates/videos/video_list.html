@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uploaded Videos</title>
+</head>
+<body>
+    <h1>Uploaded Videos</h1>
+    <ul>
+        {% for video in videos %}
+            <li>
+                <h2>{{ video.id }}</h2>
+                <video width="320" height="240" controls>
+                    <source src="{{ video.file.url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <li><a href="{% url 'video_detail' video.id %}">{{ video.title }}</a></li>
+            </li>
+        {% empty %}
+            <li>No videos uploaded yet.</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'upload_video' %}">Upload New Video</a>
+</body>
+</html>

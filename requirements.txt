@@ -1,0 +1,7 @@
+django
+celery
+psycopg2
+ffmpeg
+
+
+

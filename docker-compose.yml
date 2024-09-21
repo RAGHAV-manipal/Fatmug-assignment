@@ -1,0 +1,29 @@
+#version: '3'
+
+services:
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: video_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Shivam@0861
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/video_processor
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  celery:
+    build: .
+    command: celery -A video_processor worker --loglevel=info
+    volumes:
+      - .:/video_processor
+    depends_on:
+      - web

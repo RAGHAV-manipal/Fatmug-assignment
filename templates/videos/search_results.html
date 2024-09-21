@@ -1,0 +1,29 @@
+<!-- templates/videos/search_results.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results for "{{ query }}"</title>
+</head>
+<body>
+    <h1>Search Results for "{{ query }}" in "{{ video.file.name }}"</h1>
+    <form method="get" action="{% url 'search_subtitles' %}">
+        <input type="hidden" name="video_id" value="{{ video.id }}">
+        <input type="text" name="q" placeholder="Search subtitles" required value="{{ query }}">
+        <button type="submit">Search</button>
+    </form>
+    <ul>
+        {% for result in results %}
+            <li>
+                <a href="{% url 'video_detail' result.video.id %}?timestamp={{ result.timestamp|urlencode }}&query={{ query|urlencode }}">
+                    {{ result.timestamp }}: {{ result.text }}
+                </a>
+            </li>
+        {% empty %}
+            <li>No results found.</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'video_list' %}">Back to Video List</a>
+</body>
+</html>
